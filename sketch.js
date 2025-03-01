@@ -32,7 +32,7 @@ const sketch = () => {
           color: random.pick(palette),
           position: [ u, v ],
           radius,
-          rotation: random.noise2D(u, v, 0.1) * 5
+          rotation: random.noise2D(u, v, 0.1, 0.5) * 5
         });
       }
     }
