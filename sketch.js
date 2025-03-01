@@ -27,13 +27,20 @@ const sketch = () => {
       for (let y = 0; y < count; y ++) {
         const u = count <= 1 ? 0.5 : x / (count - 1)
         const v = count <= 1 ? 0.5 : y / (count - 1)
-        const radius = Math.abs((random.noise2D(u, v, 0.5, 5)) * 0.0025)
+
+        const bwidth = 3// Math.abs(random.noise2D(u, v, 1.5, 1)) * 30
+        const bheight = Math.abs(random.noise2D(u, v, 0.5, 2)) * 15 + 7
+        // const radius = Math.abs((random.noise2D(u, v, 0.5, 5)) * 0.0025)
         points.push({
           color: random.pick(palette),
           position: [ u, v ],
-          radius,
+          bwidth,
+          bheight,
           rotation: random.noise2D(u, v, 0.1, 0.5) * 5
         });
+
+        console.log(bwidth, bheight)
+
       }
     }
     return points;
@@ -50,7 +57,8 @@ const sketch = () => {
       const {
         color,
         position,
-        radius,
+        bwidth,
+        bheight,
         rotation
       } = data;
 
@@ -63,7 +71,7 @@ const sketch = () => {
       context.save()
       context.beginPath()
       // context.arc(x, y, radius * width, 0, Math.PI * 2, false)
-      context.ellipse(x, y, 3, 12, rotation, 0, Math.PI*2, false)
+      context.ellipse(x, y, bwidth, bheight, rotation, 0, Math.PI*2, false)
       context.fillStyle = color
       // context.globalAlpha = 0.7
       context.fill()
