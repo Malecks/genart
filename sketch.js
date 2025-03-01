@@ -36,11 +36,8 @@ const sketch = () => {
           position: [ u, v ],
           bwidth,
           bheight,
-          rotation: random.noise2D(u, v, 0.1, 0.5) * 5
+          rotation: random.noise2D(u, v, .5, 0.5) * 5
         });
-
-        console.log(bwidth, bheight)
-
       }
     }
     return points;
@@ -73,7 +70,7 @@ const sketch = () => {
       // context.arc(x, y, radius * width, 0, Math.PI * 2, false)
       context.ellipse(x, y, bwidth, bheight, rotation, 0, Math.PI*2, false)
       context.fillStyle = color
-      // context.globalAlpha = 0.7
+      context.globalAlpha = 0.7
       context.fill()
 
       // context.fillStyle = color
