@@ -22,17 +22,17 @@ const sketch = () => {
 
   const createGrid = () => {
     const points = []
-    const count = 50
+    const count = 100
     for (let x = 0; x < count; x ++) {
       for (let y = 0; y < count; y ++) {
         const u = count <= 1 ? 0.5 : x / (count - 1)
         const v = count <= 1 ? 0.5 : y / (count - 1)
-        const radius = Math.abs((random.noise2D(u, v, 1.5)) * 0.15)
+        const radius = Math.abs((random.noise2D(u, v, 0.5, 5)) * 0.0025)
         points.push({
           color: random.pick(palette),
           position: [ u, v ],
           radius,
-          rotation: random.noise2D(u, v, 0.1) * 2
+          rotation: random.noise2D(u, v, 0.1) * 5
         });
       }
     }
@@ -40,7 +40,7 @@ const sketch = () => {
   };
 
   const points = createGrid()
-    .filter(() => random.value() > 0.15)
+    .filter(() => random.value() > 0.5)
 
   return ({ context, width, height }) => {
     context.fillStyle = 'white'
@@ -61,18 +61,19 @@ const sketch = () => {
 
 
       context.save()
-      // context.beginPath()
+      context.beginPath()
       // context.arc(x, y, radius * width, 0, Math.PI * 2, false)
-      // context.fillStyle = color
-      // context.globalAlpha = 0.7
-      // context.fill()
-
+      context.ellipse(x, y, 3, 12, rotation, 0, Math.PI*2, false)
       context.fillStyle = color
-      context.font = `${radius * width}px "Helvetica"`
-      context.translate(x, y)
-      context.rotate(rotation)
-      context.globalAlpha = 0.7
-      context.fillText('—', 0, 0)
+      // context.globalAlpha = 0.7
+      context.fill()
+
+      // context.fillStyle = color
+      // context.font = `${radius * width}px "Helvetica"`
+      // context.translate(x, y)
+      // context.rotate(rotation)
+      // context.globalAlpha = 0.7
+      // context.fillText('-', 0, 0)
 
       context.restore()
     });
