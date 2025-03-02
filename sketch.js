@@ -6,9 +6,6 @@ const palettes = require('nice-color-palettes')
 const settings = {
   dimensions: [2048, 2048],
   suffix: random.getSeed()
-  // dimensions: 'A4',
-  // pixelsPerInch: 300,
-  // units: 'cm'
 };
 
 const sketch = () => {
@@ -28,9 +25,8 @@ const sketch = () => {
         const u = count <= 1 ? 0.5 : x / (count - 1)
         const v = count <= 1 ? 0.5 : y / (count - 1)
 
-        const bwidth = 3// Math.abs(random.noise2D(u, v, 1.5, 1)) * 30
-        const bheight = Math.abs(random.noise2D(u, v, 0.5, 2)) * 15 + 7
-        // const radius = Math.abs((random.noise2D(u, v, 0.5, 5)) * 0.0025)
+        const bwidth = random.range(1.5, 3.5)
+        const bheight = Math.abs(random.noise2D(u, v, 0.5, 2)) * 10 + random.range(5, 9)
         points.push({
           color: random.pick(palette),
           position: [ u, v ],
@@ -47,9 +43,9 @@ const sketch = () => {
     .filter(() => random.value() > 0.5)
 
   return ({ context, width, height }) => {
+
     context.fillStyle = 'white'
     context.fillRect(0, 0, width, height)
-
     points.forEach(data => {
       const {
         color,
@@ -64,26 +60,22 @@ const sketch = () => {
       const x = lerp(margin, width - margin, u)
       const y = lerp(margin, height - margin, v)
 
-
       context.save()
       context.beginPath()
-      // context.arc(x, y, radius * width, 0, Math.PI * 2, false)
       context.ellipse(x, y, bwidth, bheight, rotation, 0, Math.PI*2, false)
       context.fillStyle = color
-      context.globalAlpha = 0.7
+      context.globalAlpha = 1
       context.fill()
-
-      // context.fillStyle = color
-      // context.font = `${radius * width}px "Helvetica"`
-      // context.translate(x, y)
-      // context.rotate(rotation)
-      // context.globalAlpha = 0.7
-      // context.fillText('-', 0, 0)
-
       context.restore()
     });
-
   };
 };
 
 canvasSketch(sketch, settings);
+
+// context.fillStyle = color
+// context.font = `${radius * width}px "Helvetica"`
+// context.translate(x, y)
+// context.rotate(rotation)
+// context.globalAlpha = 0.7
+// context.fillText('-', 0, 0)
