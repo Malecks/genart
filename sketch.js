@@ -39,13 +39,37 @@ const sketch = () => {
     return points;
   };
 
+  const createSecondGrid = () => {
+    const points = []
+    const count = 5
+    const color = random.pick(palette)
+    for (let x = 0; x < count; x ++) {
+      for (let y = 0; y < count; y ++) {
+        const u = count <= 1 ? 0.5 : x / (count - 1)
+        const v = count <= 1 ? 0.5 : y / (count - 1)
+        const size = Math.abs(random.noise2D(u, v, 0.5, 5) * 20)
+        points.push({
+          color: color,
+          position: [u, v],
+          size
+        })
+        console.log(size)
+      }
+    }
+
+    return points
+  }
+
   const points = createGrid()
     .filter(() => random.value() > 0.5)
+
+  // const squares = createSecondGrid()
 
   return ({ context, width, height }) => {
 
     context.fillStyle = 'white'
     context.fillRect(0, 0, width, height)
+    
     points.forEach(data => {
       const {
         color,
@@ -53,7 +77,7 @@ const sketch = () => {
         bwidth,
         bheight,
         rotation
-      } = data;
+      } = data
 
       const [u, v] = position;
 
@@ -68,6 +92,22 @@ const sketch = () => {
       context.fill()
       context.restore()
     });
+
+    // squares.forEach(data => {
+    //   const {
+    //     color,
+    //     position,
+    //     size
+    //   } = data
+
+    //   const [u, v] = position;
+
+    //   context.save()
+    //   context.fillStyle = color
+    //   context.fillRect(u, v, size, size)
+    //   context.restore()
+    // })
+
   };
 };
 
