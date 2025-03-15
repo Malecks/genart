@@ -34,24 +34,46 @@ const sketch = ({ context }) => {
   const palette = random.pick(palettes);
 
   // Setup a mesh with geometry + material
-  for (let index = 0; index < 40; index++) {
+  for (let index = 0; index < random.range(7, 12); index++) {
     const color = new THREE.MeshStandardMaterial({
       color: random.pick(palette),
     });
     const mesh = new THREE.Mesh(box, color);
     scene.add(mesh);
     mesh.position.set(
-      random.range(-1, 1),
-      random.range(-1, 1), 
-      random.range(-1, 1)
+      random.range(-.5, .5),
+      random.range(-.75, .5), 
+      random.range(-.5, .5)
     );
     mesh.scale.set(
-      random.range(-1, 1),
-      random.range(-1, 1), 
-      random.range(-1, 1)
+      random.range(-2.5, 2.5),
+      random.range(.5, 1), 
+      random.range(.5, 1)
     );
     mesh.scale.multiplyScalar(0.35);
 
+  }
+
+  const count = 30;
+  for (let x = 0; x < count; x++) {
+    for (let y = 0; y < count; y++) {
+      for (let z = 0; z < count; z++) {
+        const color = new THREE.MeshStandardMaterial({
+          color: 'white',
+        });
+        const mesh = new THREE.Mesh(box, color);
+        scene.add(mesh);
+        mesh.position.set(
+          x*0.1,
+          y*0.1, 
+          z*0.1
+        );
+        mesh.scale.set(
+          0.15, 0.01, 0.01
+        );
+        mesh.scale.multiplyScalar(0.35);
+      }
+    }
   }
 
   const light = new THREE.DirectionalLight('white', 1);
